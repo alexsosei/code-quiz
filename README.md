@@ -11,3 +11,8 @@ The following are required when the app is deployed
 - WHEN the game is over, the initials and score can be saved.
 
 ## Installation
+The app is deployed using link
+
+##Usage 
+The web app is registered and displayed in screenshot below;
+![login] 
