@@ -1,4 +1,4 @@
-et words = [
+let words = [
   "Child",
   "Think",
   "Thing",
