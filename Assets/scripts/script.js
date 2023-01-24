@@ -88,6 +88,7 @@ let newGame = document.getElementById("newGame");
 let wins = 0;
 let loses = 0;
 
+// selecting all required elements
 function init() {
   const storedWins = localStorage.getItem("wins");
   if (storedWins !== null) {
