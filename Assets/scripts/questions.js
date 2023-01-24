@@ -17,7 +17,7 @@ let questions = [
     answer: "Cascading Style Sheet",
     options: [
       "Common Style Sheet",
-      "Colorful Style Sheet",
+      "Cascading Style Sorting",
       "Computer Style Sheet",
       "Cascading Style Sheet"
     ]
