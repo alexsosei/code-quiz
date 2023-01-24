@@ -109,6 +109,13 @@ start_btn.onclick = ()->{
 exit_btn.onclick = ()->{
   info_box.classlist.remove("activeinfo");
 }
+function startTimerLine(time){
+  counterline = setInterval(timer, 29);
+  function timer(){
+    time += 1;
+    time_line.getElementsByClassName.width=time + "px"
+  }
+}
 
 function init() {
   const storedWins = localStorage.getItem("wins");
