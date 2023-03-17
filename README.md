@@ -19,6 +19,8 @@ The web app is registered and displayed in screenshot below;
 
 ![login](https://github.com/alexsosei/code-quiz/blob/main/Assets/image/Screenshot%202023-03-17%20at%2011.42.34.png)
 
+![login](https://github.com/alexsosei/code-quiz/blob/main/Assets/image/Screenshot%202023-03-17%20at%2011.56.00.png)
+
 ## License
 The license used is MIT license
 
