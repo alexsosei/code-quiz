@@ -1,4 +1,4 @@
-# web-apis
+# Code Quiz
 
 ## Description
 This web app is a game that works in web APIs. The refractor code was updated to suit what was required for this challenge however, the web app seem not to be responding. Perhaps more work will be done on the work to ensure that all attempts suffice a correct score.
