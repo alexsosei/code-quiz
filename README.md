@@ -13,7 +13,7 @@ The following are required when the app is deployed
 ## Installation
 The app is deployed using link
 
-##Usage 
+## Usage 
 The web app is registered and displayed in screenshot below;
 ![login](https://github.com/alexsosei/web-apis/blob/main/Assets/Screenshot%202023-01-24%20at%2023.44.34.png?raw=true)
 
