@@ -71,259 +71,60 @@ let alphabet = [
   "Z"
 ];
 
-let countdown = document.getElementById("timeLeft");
-let letter1 = document.getElementById("letter1");
-let letter2 = document.getElementById("letter2");
-let letter3 = document.getElementById("letter3");
-let letter4 = document.getElementById("letter4");
-let letter5 = document.getElementById("letter5");
-let startButton = document.getElementById("start");
-let resetButton = document.getElementById("reset");
-let winsSpan = document.getElementById("winsNo");
-let losesSpan = document.getElementById("losesNo");
-let playArea = document.getElementById("playArea");
-let wrongLetterList = document.getElementById("wrongLetters");
-let newGame = document.getElementById("newGame");
+var highScores = [];
+var scoreTableEl = document.querySelector("#score-table");
 
-let wins = 0;
-let loses = 0;
+var loadScores = function() { 
+    highScores = localStorage.getItem("scores");
 
-// selecting all required elements
-const start_btn = document.querySelector(".start_btn button");
-const info_box = document.querySelector(".info_box");
-const exit_btn = info_box.querySelector(".buttons .quit");
-const continue_btn = info_box.querySelector(".button .restart");
-const quiz_box = document.querySelector(".quiz_box");
-const result_box = document.querySelector(".result_box");
-const option_list = document.querySelector(".option_list");
-const time_line = document.querySelector("header .time_line");
-const timeText = document.querySelector(".timer .time_left_txt");
-const timeCount = document.querySelector(".timer .timer_sec");
+    if (!highScores) {
+        highScores = []
 
-// if startquiz button is clicked
-start_btn.onclick = ()->{
-  info_box.classlist.add("activeinfo");
+        var noScores = document.createElement("div");
+        noScores.setAttribute("style", "text-align: center");
+        noScores.textContent = "There are no scores yet!  Play the quiz to add your score!"
+        document.querySelector("#score-card").appendChild(noScores);
+
+        return false;
+    }
+
+    highScores = JSON.parse(highScores);
+    highScores.sort(compare);
 }
 
-// if exitQuiz button clicked
-exit_btn.onclick = ()->{
-  info_box.classlist.remove("activeinfo");
+var compare = function(a, b) {
+    var scoreA = parseInt(a.score);
+    var scoreB = parseInt(b.score);
+
+    var comparison = 0;
+    if (scoreA < scoreB) {
+        comparison = 1;
+    } else if (scoreA > scoreB) {
+        comparison = -1;
+    }
+    return comparison;
 }
-function startTimerLine(time){
-  counterline = setInterval(timer, 29);
-  function timer(){
-    time += 1;
-    time_line.getElementsByClassName.width=time + "px"
-  }
+
+
+var createScoreTable = function() {
+
+    for (var i = 0; i < highScores.length; i++){ 
+        var scoreRow = document.createElement("tr");
+        scoreTableEl.appendChild(scoreRow);
+    
+        var nameCell = document.createElement("td");
+        nameCell.className = "table-name-data";
+        nameCell.textContent = highScores[i].name;
+        scoreRow.appendChild(nameCell);
+    
+        var scoreCell = document.createElement("td");
+        scoreCell.className = "table-score-data";
+        scoreCell.setAttribute("style", "text-align: right")
+        scoreCell.textContent = highScores[i].score;
+        scoreRow.appendChild(scoreCell);
+    }
+
 }
 
-function init() {
-  const storedWins = localStorage.getItem("wins");
-  if (storedWins !== null) {
-    wins = storedWins;
-    winsSpan.textContent = wins;
-  };
-    const storedLoses = localStorage.getItem("loses");
-  if (storedLoses !== null) {
-    loses = storedLoses
-    losesSpan.textContent = loses;
-  };
-};
-init();
-
-function updateWins() {
-  wins++;
-  winsSpan.textContent = wins;
-  localStorage.setItem("wins", wins);
-};
-
-function updateLoses() {
-  loses++;
-  losesSpan.textContent = loses;
-  localStorage.setItem("loses", loses);
-};
-
-newGame.addEventListener("click", function(arr) {
-  arr = [letter1, letter2, letter3, letter4, letter5]
-  for (var i = 0; i < arr.length; i++) {
-    arr[i].className = "lettersQ";
-    arr[i].textContent = "_";
-  }
-  randomWord();
-  checkLetters();
-  countdownTimer();
-  wrongLetterList.textContent = "";
-})
-
-startButton.addEventListener("click", function() {
-  randomWord();
-  checkLetters();
-  countdownTimer();
-  wrongLetterList.textContent = "";
-});
-
-function getRandom(value) {
-  return Math.floor(Math.random() * (value));
-};
-
-function randomWord(getWord, chosenWord, wordSplit) {
-  getWord = words[getRandom(words.length)];
-  chosenWord = getWord.toUpperCase();
-  wordSplit = chosenWord.split("");
-  return wordSplit
-};
-
-function checkLetters(chosenWord,l1, l2, l3, l4, l5) {
-  chosenWord = randomWord();
-  console.log(chosenWord);
-  l1 = chosenWord[0];
-  l2 = chosenWord[1];
-  l3 = chosenWord[2];
-  l4 = chosenWord[3];
-  l5 = chosenWord[4];
-  
-  addEventListener("keydown", function(event, typed, check, noX) {
-    typed = event.key;
-    check = typed.toUpperCase();
-    switch(check) {
-      case l1:
-        letter1.textContent = l1;
-        letter1.className = "letters";
-      break;
-      case l2:
-        letter2.textContent = l2;
-        letter2.className = "letters";
-      break;
-      case l3:
-        letter3.textContent = l3;
-        letter3.className = "letters";
-      break;
-      case l4:
-        letter4.textContent = l4;
-        letter4.className = "letters";
-      break;
-      case l5:
-        letter5.textContent = l5;
-        letter5.className = "letters";
-      break;
-      case l1 && l2:
-        letter1.textContent = l1;
-        letter1.className = "letters";
-        letter2.textContent = l2;
-        letter2.className = "letters";
-      break;
-      case l1 && l3:
-        letter1.textContent = l1;
-        letter1.className = "letters";
-        letter3.textContent = l3;
-        letter3.className = "letters";
-      break;
-      case l1 && l4:
-        letter1.textContent = l1;
-        letter1.className = "letters";
-        letter4.textContent = l4;
-        letter4.className = "letters";
-      break;
-      case l1 && l5:
-      letter1.textContent = l1;
-      letter1.className = "letters";
-      letter5.textContent = l5;
-      letter5.className = "letters";
-      break;
-      case l2 && l3:
-        letter2.textContent = l2;
-        letter2.className = "letters";
-        letter3.textContent = l3;
-        letter3.className = "letters";
-      break;
-      case l2 && l4:
-      letter2.textContent = l2;
-      letter2.className = "letters";
-      letter4.textContent = l4;
-      letter4.className = "letters";
-      break;
-      case l2 && l5:
-        letter2.textContent = l2;
-        letter2.className = "letters";
-        letter5.textContent = l5;
-        letter5.className = "letters";
-      break;
-      case l3 && l4:
-        letter3.textContent = l3;
-        letter3.className = "letters";
-        letter4.textContent = l4;
-        letter4.className = "letters";
-      break;
-      case l3 && l5:
-        letter3.textContent = l3;
-        letter3.className = "letters";
-        letter5.textContent = l5;
-        letter5.className = "letters";
-      break;
-      case l4 && l5:
-        letter4.textContent = l4;
-        letter4.className = "letters";
-        letter5.textContent = l5;
-        letter5.className = "letters";
-    };
-
-    if (check !== l1 && check !== l2 && check !== l3 && check !== l4 && check !== l5 && alphabet.includes(check)) {
-      playArea.className = "X";
-      setTimeout(function() {
-        playArea.className = "noX"
-      }, 500);
-      key = event.key
-      wrongLetterList.textContent += (" " + key.toUpperCase())
-    };
-  });
-};
-
-function countdownTimer(timeLeft, timeInterval) {
-  timeLeft = 30;
-
-  timeInterval = setInterval(function () {
-    if(letter1.className === "letters" && letter2.className === "letters" && letter3.className === "letters" && letter4.className === "letters" && letter5.className === "letters") {
-      updateWins();
-      startButton.setAttribute("style", "display: none;")
-      wrongLetterList.textContent = "Congratulations, you won!";
-      newGame.setAttribute("style", "display: inline;");
-      clearInterval(timeInterval);
-      return;
-    } else if(timeLeft > 0){
-      countdown.textContent = timeLeft + " seconds remaining";
-      timeLeft--;
-    } else if (timeLeft === 1) {
-      countdown.textContent = timeLeft + " second remaining";
-    timeLeft--;
-    } else {
-      countdown.textContent = "";
-      wrongLetterList.textContent = "Sorry, you ran out of time!"
-      playArea.className = "X"
-      updateLoses();
-      clearInterval(timeInterval);
-    };
-  }, 1000);
-  return;
-};
-
-resetButton.addEventListener("click", function() {
-  wins = -1;
-  loses = -1;
-  updateWins();
-  updateLoses();
-  location.reload();
-});
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+loadScores();
+createScoreTable();
