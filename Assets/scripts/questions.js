@@ -3,7 +3,7 @@ let questions = [
     {
     numb: 1,
     question: "What does HTML stand for?",
-    answer: "b",
+    answer: "Hyper Text Markup Language",
     
     a: "Hyper Text Preprocessor",
     b: "Hyper Text Markup Language",
@@ -14,7 +14,7 @@ let questions = [
     {
     numb: 2,
     question: "What does CSS stand for?",
-    answer: "c",
+    answer: "Cascading Style Sheet",
   
     a:  "Common Style Sheet",
     b:  "Cascading Style Sorting",
@@ -25,7 +25,7 @@ let questions = [
     {
     numb: 3,
     question: "What does PHP stand for?",
-    answer: "a",
+    answer: "Hypertext Preprocessor",
     
     a:  "Hypertext Preprocessor",
     b:  "Hypertext Programming",
@@ -36,7 +36,7 @@ let questions = [
     {
     numb: 4,
     question: "What does SQL stand for?",
-    answer: "d",
+    answer: "Structured Query Language",
     
     a:  "Stylish Question Language",
     b:  "Stylesheet Query Language",
@@ -47,7 +47,7 @@ let questions = [
     {
     numb: 5,
     question: "What does XML stand for?",
-    answer: "a",
+    answer: "eXtensible Markup Language",
     
     a:  "eXtensible Markup Language",
     b:  "eXecutable Multiple Language",
@@ -61,7 +61,7 @@ let questions = [
   {
   numb: 6,
   question: "What is the git commit code in terminal ",
-  answer: "b",
+  answer: "git commit -m",
 
   a:  "git commit -p",
   b:  "git commit -m",
@@ -72,12 +72,14 @@ let questions = [
 ]
 
 var background = document.querySelector("body");
-var startBtn = document.querySelector("#start-btn");
-var quizEl = document.querySelector(".quiz-container");
-var endEl = document.querySelector(".end");
+var startBtn = document.querySelector("#start");
+var quizEl = document.querySelector("#questions");
+var feedbackEl = document.querySelector("#feedback");
+var endEl = document.querySelector("#end-screen");
 var scoreEl = document.querySelector(".score");
+var choices = document.querySelector('#choices')
 var questionCounter = 0;
-var currentScore = 99;
+var currentScore = 100;
 var highScores = [];
 
 // starts score counter upon quiz start
@@ -85,7 +87,7 @@ var scoreCounter = function() {
     scoreEl.textContent = "Current score: 100"
 
     var scoreInterval = setInterval(function() {
-        if (currentScore > 0 && questionCounter < codeQuiz.length) {
+        if (currentScore > 0 && questionCounter < questions.length) {
             scoreEl.textContent = "Current score: " + currentScore;
             currentScore--
         }
@@ -97,28 +99,37 @@ var scoreCounter = function() {
 }
 
 var createQuiz = function() {
-    document.querySelector("#instructions").remove();
+    document.querySelector("#start-screen").remove();
     quizEl.classList.remove("hide")
 
     nextQues(questionCounter);
-    scoreCounter();
+    // scoreCounter();
 }
 
 // iterates through questions and answers
 var nextQues = function(index) {
-    var questionHeader = document.querySelector(".question-header");
+    var lastChild = choices.lastElementChild
+    while (lastChild) {
+        choices.removeChild(lastChild)
+        lastChild  = choices.lastElementChild
+    }
+
+    var questionHeader = document.querySelector("#question-title");
     var questionEl = document.querySelector(".question");
-    var btnA = document.getElementById("btn-a");
-    var btnB = document.getElementById("btn-b");
-    var btnC = document.getElementById("btn-c");
-    var btnD = document.getElementById("btn-d");
+
+    var btnA = document.createElement("button");
+    var btnB = document.createElement("button");
+    var btnC = document.createElement("button");
+    var btnD = document.createElement("button");
 
     questionHeader.textContent = "Question #" + parseInt(index + 1)
-    questionEl.textContent = codeQuiz[index].question;
-    btnA.textContent = codeQuiz[index].a;
-    btnB.textContent = codeQuiz[index].b;
-    btnC.textContent = codeQuiz[index].c;
-    btnD.textContent = codeQuiz[index].d;
+    questionEl.textContent = questions[index].question;
+    btnA.textContent = questions[index].a;
+    btnB.textContent = questions[index].b;
+    btnC.textContent = questions[index].c;
+    btnD.textContent = questions[index].d;
+
+    choices.append(btnA, btnB, btnC, btnD)
 
     btnA.addEventListener("click", checkAnswer);
     btnB.addEventListener("click", checkAnswer);
@@ -127,19 +138,18 @@ var nextQues = function(index) {
 }
 
 var checkAnswer = function(event) {
-    var clickedBtn = event.target.getAttribute("value");
-    var feedbackEl = document.querySelector(".feedback");
+    var clickedBtn = event.target.textContent;
     feedbackEl.classList.remove("hide");
     
     // checks button value against correct answer in array
-    if (clickedBtn === codeQuiz[questionCounter].answer) {
+    if (clickedBtn === questions[questionCounter].answer) {
         background.className = "correct";
         feedbackEl.textContent = "CORRECT!"
     }
     else {
         if (currentScore >= 5) {
             currentScore -= 5;
-            scoreEl.textContent = "Current score: " + currentScore;
+            // scoreEl.textContent = "Current score: " + currentScore;
             }
         background.className = "incorrect";
         feedbackEl.classList.remove("hide");
@@ -148,7 +158,7 @@ var checkAnswer = function(event) {
 
     questionCounter++
 
-    if (questionCounter < codeQuiz.length) {        
+    if (questionCounter < questions.length) {        
         nextQues(questionCounter);
     }
     else {
@@ -158,26 +168,24 @@ var checkAnswer = function(event) {
 
 var endQuiz = function() {
     quizEl.remove();
-    scoreEl.remove();
- 
-    endEl.innerHTML = "<h2 class='end-title'>That's all she wrote!</h2><p>Your final score is " + currentScore + ".  Please enter your name.</p>";
+    // scoreEl.remove();
+    feedbackEl.remove()
+    endEl.classList.remove("hide")
+    
+    document.querySelector('#final-score').textContent = currentScore
 
-    var scoreForm = document.createElement("form");
-    scoreForm.id = "score-form";
-    endEl.appendChild(scoreForm);
+    // var scoreForm = document.createElement("form");
+    // scoreForm.id = "score-form";
+    // endEl.appendChild(scoreForm);
 
-    var nameInput = document.createElement("input");
-    nameInput.className = "name-input";
-    nameInput.setAttribute("type", "text");
-    nameInput.setAttribute("name", "player-name");
-    nameInput.setAttribute("placeholder", "ENTER YOUR NAME");
-    scoreForm.appendChild(nameInput);
+    // var nameInput = document.createElement("input");
+    // nameInput.className = "name-input";
+    // nameInput.setAttribute("type", "text");
+    // nameInput.setAttribute("name", "player-name");
+    // nameInput.setAttribute("placeholder", "ENTER YOUR NAME");
+    // scoreForm.appendChild(nameInput);
 
-    var nameBtn = document.createElement("button");
-    nameBtn.className = "btn";
-    nameBtn.id = "name-btn"
-    nameBtn.textContent = "SUBMIT";
-    scoreForm.appendChild(nameBtn);
+    var nameBtn = document.querySelector("#submit");
 
     nameBtn.addEventListener("click", saveScore);
 }
@@ -197,9 +205,9 @@ var saveScore = function() {
         }
     
         highScores.push(scoreObj);
-        document.querySelector("#score-form").reset();
+        // document.querySelector("#score-form").reset();
         localStorage.setItem("scores", JSON.stringify(highScores));
-        document.location.href = "highscore.html";
+        document.location.href = "highscores.html";
     }
 }
 

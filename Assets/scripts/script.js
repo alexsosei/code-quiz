@@ -73,6 +73,7 @@ let alphabet = [
 
 var highScores = [];
 var scoreTableEl = document.querySelector("#score-table");
+var clearBtn = document.querySelector('#clear')
 
 var loadScores = function() { 
     highScores = localStorage.getItem("scores");
@@ -83,7 +84,7 @@ var loadScores = function() {
         var noScores = document.createElement("div");
         noScores.setAttribute("style", "text-align: center");
         noScores.textContent = "There are no scores yet!  Play the quiz to add your score!"
-        document.querySelector("#score-card").appendChild(noScores);
+        document.querySelector("#highscores").appendChild(noScores);
 
         return false;
     }
@@ -126,5 +127,12 @@ var createScoreTable = function() {
 
 }
 
+var clearTable = function(){
+    localStorage.clear();
+    scoreTableEl.remove()
+    loadScores()
+}
+
 loadScores();
 createScoreTable();
+clearBtn.addEventListener("click", clearTable)
