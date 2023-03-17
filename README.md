@@ -17,7 +17,7 @@ The app is deployed using link
 The web app is registered and displayed in screenshot below;
 ![login](https://github.com/alexsosei/code-quiz/blob/main/Assets/image/Screenshot%202023-03-17%20at%2011.43.13.png)
 
-![login](
+![login](https://github.com/alexsosei/code-quiz/blob/main/Assets/image/Screenshot%202023-03-17%20at%2011.43.13.png)
 
 ## License
 The license used is MIT license
